@@ -1,20 +1,28 @@
 package com.tiago.cooHomeless.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Colaborador {
 	
-	private Integer idColaborador;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long id;
 	private String nome;
+	private String cpf;
 	
-	public Colaborador() {
-		// TODO Auto-generated constructor stub
+	public Colaborador() {}
+
+	public Long getIdColaborador() {
+		return id;
 	}
 
-	public Integer getIdColaborador() {
-		return idColaborador;
-	}
-
-	public void setIdColaborador(Integer idColaborador) {
-		this.idColaborador = idColaborador;
+	public void setIdColaborador(Long idColaborador) {
+		this.id = idColaborador;
 	}
 
 	public String getNome() {
@@ -23,6 +31,14 @@ public class Colaborador {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 	
 }
