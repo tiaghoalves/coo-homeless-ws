@@ -10,6 +10,6 @@ import com.tiago.cooHomeless.model.Colaborador;
 public interface ColaboradorRepository extends JpaRepository<Colaborador, Long>{
 	
 	Optional<Colaborador> findByNome(String nome);
-	Collection<Colaborador> findByCpf(String cpf);
+	Optional<Colaborador> findByCpf(String cpf);
 	Colaborador findById(Long id);
 }

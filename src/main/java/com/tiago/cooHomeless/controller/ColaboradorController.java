@@ -1,6 +1,7 @@
 package com.tiago.cooHomeless.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.tiago.cooHomeless.model.Colaborador;
@@ -33,7 +35,7 @@ public class ColaboradorController {
 	// -------------------Retrieve All Users---------------------------------------------
  
     @RequestMapping(value = "/all/", method = RequestMethod.GET)
-    public ResponseEntity<List<Colaborador>> listAllUsers() {
+    public ResponseEntity<List<Colaborador>> listAllColaboradores() {
         List<Colaborador> colaborador = this.colaboradorRepository.findAll();
         if (colaborador.isEmpty()) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
@@ -42,21 +44,35 @@ public class ColaboradorController {
         return new ResponseEntity<List<Colaborador>>(colaborador, HttpStatus.OK);
     }
  
-    // -------------------Retrieve Single User------------------------------------------
+    // -------------------Retrieve Single User By Id------------------------------------------
  
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getUser(@PathVariable("id") Long id) {
+    public ResponseEntity<?> getColaboradorById(@PathVariable("id") Long id) {
         Colaborador colaborador = this.colaboradorRepository.findById(id);
         if (colaborador == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<Colaborador>(colaborador, HttpStatus.OK);
     }
+    
+    // -------------------Retrieve Single User By Cpf------------------------------------------
+        
+    @RequestMapping(value = "/cpf/{cpf}", method = RequestMethod.GET)
+    public ResponseEntity<?> getColaboradorByCpf(@PathVariable("cpf") String cpf) {
+    	logger.info("OKAY getByCpf");
+        Optional<Colaborador> colaborador = this.colaboradorRepository.findByCpf(cpf);
+        
+        if (colaborador.get() == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        
+        return new ResponseEntity<Colaborador>(colaborador.get(), HttpStatus.OK);
+    }
  
     // -------------------Create a User-------------------------------------------
  
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<?> createUser(@RequestBody Colaborador colaborador, UriComponentsBuilder ucBuilder) {
+    public ResponseEntity<?> createColaborador(@RequestBody Colaborador colaborador, UriComponentsBuilder ucBuilder) {
         this.colaboradorRepository.save(colaborador);
  
         HttpHeaders headers = new HttpHeaders();
@@ -67,8 +83,7 @@ public class ColaboradorController {
     // ------------------- Update a User ------------------------------------------------
  
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> updateUser(@PathVariable("id") Long id, @RequestBody Colaborador colaborador) {
- 
+    public ResponseEntity<?> updateColaborador(@PathVariable("id") Long id, @RequestBody Colaborador colaborador) {
         Colaborador currentColaborador = this.colaboradorRepository.findById(id);
  
         if (currentColaborador == null) {
@@ -85,7 +100,7 @@ public class ColaboradorController {
     // ------------------- Delete a User-----------------------------------------
  
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteUser(@PathVariable("id") Long id) {
+    public ResponseEntity<?> deleteColaborador(@PathVariable("id") Long id) {
         Colaborador colaborador = this.colaboradorRepository.findById(id);
         if (colaborador == null) {
             logger.debug("Unable to delete. User with id "+id+ " not found.");
@@ -98,7 +113,7 @@ public class ColaboradorController {
     // ------------------- Delete All Users-----------------------------
  
     @RequestMapping(value = "/all", method = RequestMethod.DELETE)
-    public ResponseEntity<Colaborador> deleteAllUsers() {
+    public ResponseEntity<Colaborador> deleteAllColaboradores() {
         logger.info("Deleting All Users");
  
         this.colaboradorRepository.deleteAll();
