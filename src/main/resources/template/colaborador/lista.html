@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="@{/layout}">
+<head>
+	<title>Cadastro Colaborador</title>
+</head>
+<body>
+	<div layout:fragment="content">
+	
+			<h2 class="text-center">Listagem de Colaboradores</h2>
+			
+			
+			<div class="title" th:if="${not #lists.isEmpty(colaboradores)}">
+			
+				<div th:if="${message}" class="alert alert-success fade in">
+					<a th:href="@{/colaboradores}" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+					<strong th:text="${message}">mensage</strong>
+				</div>
+				
+				<div style="float:right;" >
+					<a class="btn btn-large btn-success" role="button" th:href="@{/colaborador/cadastra/}">Cadastrar Novo</a>
+				</div>
+
+				<form th:action="@{/colaborador/buscar}" method="get">
+					<div class="form-group col-sm-10" style="float:left;">
+						<div class="col-sm-4">
+							<input class="form-control" name="nome" placeholder = "Pesquise um cliente" type="text"/>
+						</div>
+						<div class="col-sm-6">
+							<button class="btn btn-primary" type="submit">Pesquisar</button>
+						</div>
+					</div>
+				</form>
+				
+				<table class="table table-striped table-bordered table-hover table-condensed">
+					<tr>
+						<th>Nome</th>
+						<th>CPF</th>
+						<th>Visualizar</th>
+						<th>Editar</th>
+						<th>Remover</th>
+					</tr>
+					<tbody>
+						<tr th:each="cliente : ${colaboradores}">
+							<td class="text-center" th:text="${colaborador.nome}"></td>
+							<td class="text-center" th:text="${colaborador.cpf}"></td>
+							<td class="text-center"><a class="btn btn-info" role="button" th:href="${'/colaborador/' + cliente.id}">Visualizar</a></td>
+							<td class="text-center"><a class="btn btn-info" role="button" th:href="${'/colaborador/editar/' + cliente.id}">Editar</a></td>
+							<td class="text-center"><a class="btn btn-info" role="button" th:href="${'/colaborador/remover/' + cliente.id}">Remover</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div th:unless="${not #lists.isEmpty(colaboradores)}">
+				<h2 class="text-center title">Nenhum Colaborador Encontrado.</h2>
+			</div>
+			
+	</div>
+	
+</body>
+</html>

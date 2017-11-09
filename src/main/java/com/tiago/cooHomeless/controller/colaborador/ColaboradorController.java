@@ -1,4 +1,4 @@
-package com.tiago.cooHomeless.controller;
+package com.tiago.cooHomeless.controller.colaborador;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.tiago.cooHomeless.model.Colaborador;
@@ -34,7 +35,7 @@ public class ColaboradorController {
 	
 	// -------------------Retrieve All Users---------------------------------------------
  
-    @RequestMapping(value = "/all/", method = RequestMethod.GET)
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
     public ResponseEntity<List<Colaborador>> listAllColaboradores() {
         List<Colaborador> colaborador = this.colaboradorRepository.findAll();
         if (colaborador.isEmpty()) {
@@ -44,6 +45,12 @@ public class ColaboradorController {
         return new ResponseEntity<List<Colaborador>>(colaborador, HttpStatus.OK);
     }
  
+    @RequestMapping(method = RequestMethod.GET)
+    public ModelAndView listar() {
+        List<Colaborador> colaboradores = this.colaboradorRepository.findAll();
+    	return new ModelAndView("/template/colaborador/lista", "colaboradores", colaboradores);
+    }
+    
     // -------------------Retrieve Single User By Id------------------------------------------
  
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
