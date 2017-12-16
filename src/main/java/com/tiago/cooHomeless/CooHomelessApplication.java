@@ -11,7 +11,7 @@ public class CooHomelessApplication {
 		SpringApplication.run(CooHomelessApplication.class, args);
 	}
 	
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("Index");
-    }
+//    public void addViewControllers(ViewControllerRegistry registry) {
+//        registry.addViewController("/").setViewName("index");
+//    }
 }
